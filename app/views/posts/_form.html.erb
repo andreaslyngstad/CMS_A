@@ -1,0 +1,33 @@
+<div id=content_l>
+			<p style="color: green"><%= flash[:notice] %></p>
+		<ul class="form_layout_adm_l">
+		<% form_for(@post) do |f| -%>
+  		<li><%= f.error_messages %></li>
+		<li><label>&nbsp;</label><%= f.submit "Lagre",:class => 'submit' %></li>
+        <li><%= f.label :Overskrift %></li>
+		<li><%= f.text_field(:title, :size => 80, :style => "font-size: 1.5em")%>	</li>
+        <li><%= f.label :Tag, "Legg inn tags, separer med komma" %></li>
+		<li><%= f.text_field(:tag_list, :size => 80, :style => "font-size: 1.5em")%>	</li>
+		<li><%= f.label :Ingress %></li>
+		<li><%= f.text_area(:lead, :cols => 61, :rows => 7, :style => "font-size: 1.5em")%></li>	
+        <li><%= f.label :Innhold, h("Innhold. Hvis du vil legge inn kode bruk  <code:ruby> ..kode her.. </code>") %></li>
+   		<li><%= textile_editor 'post', 'content'%></li>	
+		<li><label>&nbsp;</label><%= f.submit "Lagre",:class => 'submit' %></li>
+        </ul>
+ 	
+  </div>
+ <div id=content_r>
+  	<h2>Kategorier</h2>
+	<ul class="form_layout_adm_r">
+		<% @all_categories.each do |cat| -%>
+	<li><%= check_box_tag('categories[]', cat.id, @post.categories.map {|c| c.id }.include?(cat.id)) %>
+	<%= cat.name %></li>
+	<% end -%>
+	
+	<h2><%= f.label :status %></h2>
+		<li><%= f.select(:status, ['Kladd', 'Offentlig'])%></li>
+		
+	
+<%= textile_editor_initialize -%>
+<% end -%>
+</div>

@@ -1,0 +1,48 @@
+<div id="content_l">
+	<h1>Alle Innlegg</h1>
+	<p><%= link_to 'Nytt Innlegg', new_post_path %></p>
+	
+	<table class="table_regular_adm" cellspacing="0" cellpadding="0">
+		<tr>
+			<th>Tittel</th>
+			<th>Forfatter</th>
+			<th>Laget</th>
+			<th>Status</th>
+			<th>Type</th>
+			<th></th>
+		</tr>
+	
+	<% for post in (@posts) -%>
+ 	<tr>
+ 		<td><%=link_to(truncate((post.title), :length => 22), post_path(post)) %></td>
+	    <td><%= mail_to(h(post.author.email), truncate(h(post.author.full_name ), :length => 17)) %></td>
+	   	<td><%= post.created_at.strftime('%d.%m.%y') %></td>
+		<td><%= post.status %></td>
+		<td><%= post.slag %></td>
+		<% if current_user.id == post.author.id || current_user.id == 1 -%>
+	   		<td>
+				<%= link_to 'Vis', :controller => "public", :action => "view_post", :id => @post.id%>
+				<%= link_to 'Oppdater', edit_post_path(post)%>
+	  			<%= link_to 'Slett', post, :confirm => 'Denne videoen blir slettet. Er du sikker?', :method => :delete %>
+	  		</td>
+	    <% else -%>
+	 		<td></td>
+	 	<% end -%>	
+ 	</tr>	
+	<% end -%>
+	</table>
+</div>
+	
+<div id="content_r">
+	<% if !@post.nil? %>
+		<h2><%= @post.title %></h2>
+		<p>Forfattet av <strong><%= @post.author.full_name %></strong></p>
+		<p>Postet: <%= @post.created_at.strftime('%d.%m.%y kl %H:%m')%></p>
+		<p>Kategorier: <%= @post.categories.collect {|c| c.name }.to_sentence(:connector => "og") %></p>
+		<p><%= @post.lead  %></p>
+	<% end %>
+		
+	<p style="color: green;"><%= flash[:notice] %></p>
+	<p style="color: green;"><%= flash[:error] %></p>
+</div>
+

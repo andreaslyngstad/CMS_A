@@ -1,0 +1,31 @@
+<div id="sub_nav">
+	<ul>
+		<li><h3>Kategorier</h3></li>
+		<% @all_categories.each do |cat| -%>
+		<li><b><%= link_to_unless_current(cat.name, :action => 'category', :id => cat.id) %></b></li>
+		<% end -%>
+	</ul>
+	<ul>
+		<li><h3>Alle innlegg</h3></li>
+		<% for post in @posts_til_liste -%>
+		
+		<li><b><%= link_to_unless_current(h(post.title), :controller => "public", :action => "view_post", :id => post.id) %></b></li>
+		<%end -%>
+		</ul>
+	
+</div>
+
+<div id="search_form">
+	Søk i bloggen
+	<% form_tag view_blogg_path, :method => 'get' do %>
+	 	<%= text_field_tag :search, params[:search] %>
+	    <%= submit_tag "Søk", :name => nil, :class => 'submit' %>
+	<% end %>			
+</div>
+
+<h3>Tags</h3>
+<% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+    <%= link_to tag.name, { :action => :tag, :id => tag.id }, :class => css_class %>
+<% end %>
+<br/><br/>
+<p><%= link_to "#{image_tag("../images/feed.gif", :border => "0")} RSS", posts_url(:rss) %> </p>

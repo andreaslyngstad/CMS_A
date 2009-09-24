@@ -1,0 +1,49 @@
+<% @page_title = "Bloggkommentarer" -%>
+
+<h1>Kommentarer</h1>
+
+<p>
+	<strong>Vis:</strong>
+	<%= link_to_unless_current('Alle', :status => 'alle')%>&nbsp;|
+	<%= link_to_unless_current('Nye', :status => 'nye')%>&nbsp;|
+	<%= link_to_unless_current('Godkjent', :status => 'godkjent')%>&nbsp;|
+	<%= link_to_unless_current('Spam', :status => 'spam')%>
+</p>
+
+
+	<% form_tag(:controller => "comments", :action => 'set_status') do %>
+	<table class="table_regular_adm" cellspacing="0" cellpadding="0">
+		<tr>
+			<th>På Innlegg</th>
+			<th>Forfatter</th>
+			<th>Kommentar</th>
+			<th>Status</th>
+			<th>Dato</th>
+		</tr>
+	
+		<% for comment in @comments%>
+		<tr> 
+			<td>
+			   <%= check_box_tag('commentlist[]', comment.id) %>
+			   <%= h(comment.post.title)%>
+		   </td>
+			<td><%= mail_to(h(comment.author_email), truncate(h(comment.author), :length => 17)) %></td>
+			<td><%= truncate(h(comment.content), :length => 50) %><%= link_to('se hele', :action => "show", :id => comment) if h(comment.content).length > 50 %></td>
+			<td><%= h(comment.status) %></td>
+			<td><%= comment.created_at.strftime('%m/%d/%y') %></td>
+		</tr>
+		<% end -%>	
+	</table>		
+		
+	<ul class="form_layout">
+		<li>
+			<%= submit_tag("Godkjent", :class => 'submit')%> 
+			<%= submit_tag("Spam", :class => 'submit')%> 
+			<%= submit_tag("Slett", :class => 'submit') %>
+		</li>
+	</ul>		
+		
+	<% end -%>
+	
+
+	

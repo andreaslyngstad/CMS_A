@@ -1,0 +1,24 @@
+
+<% for post in @posts %>
+	<div class="post">
+		<h2><%= link_to(h(post.title), :controller => "public", :action => "view_post", :id => post.id) %></h2>
+		<div>
+			<strong>Av: <%= h(post.author.full_name) %></strong> <strong>|</strong> <em><%= h(post.created_at.strftime("%d. %m. %Y")) %></em>
+			
+			<strong>|</strong>
+			<em><%= post.categories.collect {|cat| cat.name if !cat.nil?}.to_sentence%></em>
+			<strong>|</strong>
+			
+			
+			
+			
+		</div>
+		<p><%= h(post.lead) %></p>
+		<p><% if post.approved_comments.size != 0 -%>
+				<strong><%= link_to(('Antall kommentarer:' + " " + (post.approved_comments.size.to_s) ), :action => 'view_post', :id => post.id, :anchor => 'comments')%></strong>
+				
+			<% end -%>
+			&nbsp;&nbsp;<strong>Tags:</strong>&nbsp;<em><%=post.tag_list%></em>
+		</p>
+	</div>
+<% end %>

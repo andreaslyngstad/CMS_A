@@ -1,0 +1,15 @@
+
+	
+<h3>Skriv kommentar&nbsp;<%= image_tag '/images/24x24/comment.png', :style => 'vertical-align:middle;' %></h3>
+<p style="color: red"><%= flash[:error] %></p> 
+	<p><%= h("Hvis du vil legge inn kode bruk  <code:ruby> ..kode her.. </code>")%></p>
+<% form_for(:comment, @comment, :url => { :action => "add_comment", :id => @post.id, :anchor => "comment_form"}) do |f|%>
+	<ul class="form_layout">
+		
+		<li><label>Ditt navn:</label><%= f.text_field(:author)%></li>
+		<li><label>Din e-post:</label><%= f.text_field(:author_email) %></li>
+		<li><label>Kommentar:</label><%= f.text_area(:content, :cols => 60, :rows => 5 )%></li>
+		<li><label>&nbsp;</label><%= show_simple_captcha(:label => "For å bevise at du er et menneske og ikke en spam robot, må du skrive in koden ovenfor.", :image_style => 'charcoal_grey') %></li>
+		<li><label>&nbsp;</label><%= f.submit("Lagre", :class => 'submit') %></li>
+	</ul>	
+<% end -%>

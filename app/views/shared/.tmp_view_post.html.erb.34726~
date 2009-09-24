@@ -1,0 +1,28 @@
+<div id="content_l">
+	<%= render :partial => "shared/links" %>	
+</div>
+
+<div id="content_r">
+	<h1><%= @post.title %></h1>
+	
+		<strong>Av: <%= h(@post.author.full_name) %></strong>, <em><%= h(@post.created_at.strftime("%d. %B %Y")) %>.</em>
+			
+		
+	<p><%= h(@post.lead) %></p>
+	
+	
+		
+	<p><%=  @post.content %></p>
+		
+	<br /><br />
+	<% if @post.comments_count != 0%>
+		<h3>Kommentarer</h3>
+		<%= render(:partial => 'shared/comment', :collection => @post.approved_comments) %>	
+	<% end -%>
+	<br /><br />	
+	<div id="comment_form">
+	<%= render :partial => "shared/newcomment"%>
+	</div>
+</div>
+
+

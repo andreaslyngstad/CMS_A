@@ -1,0 +1,7 @@
+
+
+<p>	
+<strong>Skrevet av: <%= h(comment.author)%></strong><em>, <%=h(comment.created_at.strftime("%B %d %Y"))%></em><br />
+<%= parse_coderay(comment.content) %>
+</p>
+
